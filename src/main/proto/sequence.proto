@@ -1,0 +1,17 @@
+syntax="proto3";
+option java_multiple_files=true;
+option java_package="com.sqlpy.demo.rpcs";
+
+message SequenceRequest {
+  // 只有在客户端想要重新设置偏移量时才填写 offset 的值
+  optional int64 offset = 1;
+}
+
+message SequenceResponse {
+  int64 sequence = 1;
+}
+
+
+service SequenceServer {
+  rpc get(SequenceRequest) returns (SequenceResponse) {}
+}
