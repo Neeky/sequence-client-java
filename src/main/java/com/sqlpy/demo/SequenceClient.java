@@ -15,20 +15,28 @@ public class SequenceClient {
     //private static final Logger logger = Logger.getLogger("sequence-client-java");
 
     private final SequenceServerBlockingStub blockingStub;
-    private final Integer incre = 1;
+    private final int increment = 1;
 
     public SequenceClient(Channel channel) {
         this.blockingStub = com.sqlpy.demo.rpcs.SequenceServerGrpc.newBlockingStub(channel);
     }
 
     public void getSequenceNumber() {
-        SequenceRequest request = SequenceRequest.newBuilder().setOffset(incre).build();
+        SequenceRequest request = SequenceRequest.newBuilder().setOffset(increment).build();
         SequenceResponse response ;
         try {
             response = blockingStub.get(request);
         } catch (StatusRuntimeException e) {
             return ;
         }
+        log.debug("get sequence number {} .",response.getSequence());
         log.info("get sequence number {} .",response.getSequence());
+    }
+
+    @Override
+    public String toString() {
+        return "SequenceClient{" +
+            "incre=" + increment +
+            '}';
     }
 }
